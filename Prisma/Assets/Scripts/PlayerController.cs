@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Private Radius
+    #region Private Variables
 
     private PlayerInput m_PlayerInput;
 
@@ -26,10 +26,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D m_rigidbody;
     private Animator m_anim;
 
+    private GameObject _interactableObj;
+
     private float _currentSpeed;
 
     private bool _facingRight = true;
-    private bool _canControl = true;
     private bool _canJump = false;
     private bool _canDoubleJump = false;
     private bool _shielded = false;
@@ -51,11 +52,7 @@ public class PlayerController : MonoBehaviour
 
     #region Properties
 
-    public bool CanControl
-    {
-        get { return _canControl; }
-        set { _canControl = value; }
-    }
+    public bool CanControl { get; set; }
 
     public bool FacingRight
     {
@@ -69,17 +66,17 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
 	void Start () 
     {
-        Debug.Log("Started");
         m_PlayerInput = GetComponent<PlayerInput>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
         distToGround = GetComponent<BoxCollider2D>().bounds.extents.y;
+        CanControl = true;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        if (_canControl)
+        if (CanControl)
         {
             ProcessInput();
         }
@@ -92,7 +89,7 @@ public class PlayerController : MonoBehaviour
             _hurtTimer -= Time.deltaTime;
             if (_hurtTimer <= 0)
             {
-                _canControl = true;
+                CanControl = true;
                 _hurt = false;
             }
         }
@@ -106,7 +103,7 @@ public class PlayerController : MonoBehaviour
         m_anim.SetBool("Crouching", _crouching);
         
 
-        if(_canControl)
+        if(CanControl)
         {
             float move = Input.GetAxis("Horizontal");
             m_anim.SetFloat("Speed", Mathf.Abs(move));
@@ -142,13 +139,17 @@ public class PlayerController : MonoBehaviour
 
         if (m_PlayerInput.GetAxisRawPressed("Fire"))
         {
-            //transform.FindChild("Spectra_Shot").gameObject.GetComponent<ShotSpectra>().Fire(_facingRight);
+            GetComponent<ShotSpectra>().Fire(_facingRight);
         }
 
         if(m_PlayerInput.GetAxisRawPressed("Shield"))
         {
-            _shielded = !_shielded;
-            Debug.Log("Shielded");
+            if(_interactableObj != null)
+            {
+                _interactableObj.GetComponent<IInteractable>().Interact(gameObject);
+            }
+            //_shielded = !_shielded;
+            //Debug.Log("Shielded");
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -222,7 +223,7 @@ public class PlayerController : MonoBehaviour
         if(!_invulnerable)
         {
             _hurt = true;
-            _canControl = false;
+            CanControl = false;
             //_invulnerable = true;
             m_rigidbody.velocity = new Vector2(0, 0);
             m_rigidbody.AddForce(new Vector2(-70, 70));
@@ -237,4 +238,39 @@ public class PlayerController : MonoBehaviour
         flipScale.x *= -1;
         transform.localScale = flipScale;
     }
+
+    public void Activate()
+    {
+        CanControl = true;
+    }
+
+    public void Deactivate()
+    {
+        CanControl = false;
+        _currentSpeed = 0;
+        m_rigidbody.velocity = new Vector2(0, 0);
+        m_anim.SetFloat("Speed", 0);
+    }
+
+    #region Events
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        GameObject obj = collider.gameObject;
+        if(obj.GetComponent<IInteractable>() != null)
+        {
+            Debug.Log("Interactable");
+            _interactableObj = obj;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if(_interactableObj == collider.gameObject)
+        {
+            _interactableObj = null;
+        }
+    }
+
+    #endregion
 }

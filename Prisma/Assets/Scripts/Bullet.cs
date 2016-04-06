@@ -37,10 +37,20 @@ public class Bullet : MonoBehaviour {
 
     }
 
-    void OnTrigger2DEnter(Collider2D collider)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("Bullet Collision");
-        Destroy(transform.gameObject);
+        if(collider.gameObject.tag != "Player")
+        {
+            Destroy(transform.gameObject);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag != "Player")
+        {
+            Destroy(transform.gameObject);
+        }
     }
 
     public void Fire(bool right)

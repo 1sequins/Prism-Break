@@ -52,13 +52,21 @@
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Dash.cs" />
      <Compile Include="Assets\Scripts\DashSpectra.cs" />
+     <Compile Include="Assets\Scripts\Enums\ColorEnum.cs" />
      <Compile Include="Assets\Scripts\GroundCheck.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\IActivateable.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\ILockable.cs" />
      <Compile Include="Assets\Scripts\JumpSpectra.cs" />
+     <Compile Include="Assets\Scripts\LensController.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\ShotSpectra.cs" />
      <Compile Include="Assets\Scripts\Spectra.cs" />
+     <Compile Include="Assets\Scripts\SpectraDictionary.cs" />
+     <Compile Include="Assets\Scripts\SpectraLens.cs" />
      <Compile Include="Assets\Scripts\Spikes.cs" />
+     <Compile Include="Assets\Scripts\Switch.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
