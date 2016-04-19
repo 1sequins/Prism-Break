@@ -45,6 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\ActivatableObject.cs" />
+     <Compile Include="Assets\Scripts\ActivatableObjectSource.cs" />
+     <Compile Include="Assets\Scripts\ActivatableObjectTarget.cs" />
      <Compile Include="Assets\Scripts\AttackListener.cs" />
      <Compile Include="Assets\Scripts\Attacks\Attack.cs" />
      <Compile Include="Assets\Scripts\Attacks\NoAttack.cs" />
@@ -52,9 +55,10 @@
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Dash.cs" />
      <Compile Include="Assets\Scripts\DashSpectra.cs" />
+     <Compile Include="Assets\Scripts\Door.cs" />
      <Compile Include="Assets\Scripts\Enums\ColorEnum.cs" />
      <Compile Include="Assets\Scripts\GroundCheck.cs" />
-     <Compile Include="Assets\Scripts\Interfaces\IActivateable.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\IActivatable.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
      <Compile Include="Assets\Scripts\Interfaces\ILockable.cs" />
      <Compile Include="Assets\Scripts\JumpSpectra.cs" />

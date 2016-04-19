@@ -21,7 +21,6 @@ public class ShotSpectra : MonoBehaviour {
 
     public void Fire(bool right)
     {
-        Debug.Log("Firing Bullet");
         GameObject firedBullet = (GameObject)Instantiate(bullet, shotSpawn.transform.position, Quaternion.identity);
         firedBullet.GetComponent<Bullet>().Fire(right);
     }

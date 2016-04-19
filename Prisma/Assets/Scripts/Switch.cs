@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
-public class Switch : MonoBehaviour, IActivateable {
-    public bool Active { get; set; }
+[RequireComponent(typeof (ActivatableObjectSource))]
+public class Switch : ActivatableObject {
+
+    private ActivatableObjectSource _source;
 
     // Use this for initialization
     void Start () {
-	
+        _source = GetComponent<ActivatableObjectSource>();
 	}
 	
 	// Update is called once per frame
@@ -15,15 +18,16 @@ public class Switch : MonoBehaviour, IActivateable {
 	
 	}
 
-    public void Activate()
+    public override void Activate()
     {
-        Active = true;
         GetComponent<SpriteRenderer>().color = Color.red;
+        _source.Activate();
     }
 
-    public void Deactivate()
+    public override void Deactivate()
     {
-
+        GetComponent<SpriteRenderer>().color = Color.white;
+        _source.Deactivate();
     }
 
     void OnTriggerEnter2D(Collider2D collider)

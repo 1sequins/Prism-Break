@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IActivateable {
-    bool Active { get; set; }
-
+public interface IActivatable {
     void Activate();
     void Deactivate();
 }
