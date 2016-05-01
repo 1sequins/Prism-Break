@@ -20,12 +20,14 @@ public class Switch : ActivatableObject {
 
     public override void Activate()
     {
+        base.Activate();
         GetComponent<SpriteRenderer>().color = Color.red;
         _source.Activate();
     }
 
     public override void Deactivate()
     {
+        base.Deactivate();
         GetComponent<SpriteRenderer>().color = Color.white;
         _source.Deactivate();
     }

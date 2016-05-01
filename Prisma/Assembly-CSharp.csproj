@@ -45,9 +45,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ActivatableObject.cs" />
-     <Compile Include="Assets\Scripts\ActivatableObjectSource.cs" />
-     <Compile Include="Assets\Scripts\ActivatableObjectTarget.cs" />
+     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObject.cs" />
+     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObjectSource.cs" />
+     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObjectTarget.cs" />
+     <Compile Include="Assets\Scripts\Activatable Objects\Door.cs" />
+     <Compile Include="Assets\Scripts\Activatable Objects\Podium.cs" />
+     <Compile Include="Assets\Scripts\Activatable Objects\Switch.cs" />
      <Compile Include="Assets\Scripts\AttackListener.cs" />
      <Compile Include="Assets\Scripts\Attacks\Attack.cs" />
      <Compile Include="Assets\Scripts\Attacks\NoAttack.cs" />
@@ -55,8 +58,11 @@
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Dash.cs" />
      <Compile Include="Assets\Scripts\DashSpectra.cs" />
-     <Compile Include="Assets\Scripts\Door.cs" />
      <Compile Include="Assets\Scripts\Enums\ColorEnum.cs" />
+     <Compile Include="Assets\Scripts\Enums\FTRTileTypeEnum.cs" />
+     <Compile Include="Assets\Scripts\FTRBoardManager.cs" />
+     <Compile Include="Assets\Scripts\FTRController.cs" />
+     <Compile Include="Assets\Scripts\FTR_Tile.cs" />
      <Compile Include="Assets\Scripts\GroundCheck.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IActivatable.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IInteractable.cs" />
@@ -70,7 +76,6 @@
      <Compile Include="Assets\Scripts\SpectraDictionary.cs" />
      <Compile Include="Assets\Scripts\SpectraLens.cs" />
      <Compile Include="Assets\Scripts\Spikes.cs" />
-     <Compile Include="Assets\Scripts\Switch.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

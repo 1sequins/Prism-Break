@@ -22,11 +22,13 @@ public class Door : ActivatableObject {
 
     public override void Activate()
     {
+        base.Activate();
         _collider.enabled = false;
     }
 
     public override void Deactivate()
     {
+        base.Deactivate();
         _collider.enabled = true;
     }
 }

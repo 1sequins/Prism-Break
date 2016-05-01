@@ -28,13 +28,13 @@ public class ActivatableObject : MonoBehaviour, IActivatable {
         Active = false;
     }
 
-    public void UnlockSource()
+    public virtual void UnlockSource()
     {
         //TODO: For if the object is both a target and source
         Unlocked = true;
     }
 
-    public void LockSource()
+    public virtual void LockSource()
     {
         //TODO: For if the object is both a target and source
         Unlocked = false;
