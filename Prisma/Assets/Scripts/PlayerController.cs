@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     #region Private Variables
 
     private PlayerInput m_PlayerInput;
+    private PlayerHealth m_PlayerHealth;
 
     private float _prevInputJump;
 
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour
 	void Start () 
     {
         m_PlayerInput = GetComponent<PlayerInput>();
+        m_PlayerHealth = GetComponent<PlayerHealth>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
         distToGround = GetComponent<BoxCollider2D>().bounds.extents.y;
@@ -242,11 +244,13 @@ public class PlayerController : MonoBehaviour
     public void Activate()
     {
         CanControl = true;
+        if (m_PlayerHealth != null) m_PlayerHealth.stasis = false;
     }
 
     public void Deactivate()
     {
         CanControl = false;
+        if(m_PlayerHealth != null) m_PlayerHealth.stasis = true;
         _currentSpeed = 0;
         m_rigidbody.velocity = new Vector2(0, 0);
         m_anim.SetFloat("Speed", 0);
