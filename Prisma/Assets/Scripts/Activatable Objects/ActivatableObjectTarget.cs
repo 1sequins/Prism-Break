@@ -10,7 +10,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
     private bool _sourceAndTarget;
 
-    private List<GameObject> _sources;
+    private List<ActivatableObjectSource> _sources;
 
     private ActivatableObject _activatableObject;
 
@@ -19,7 +19,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
         _sourceAndTarget = GetComponent<ActivatableObjectSource>() != null;
 
-        _sources = new List<GameObject>();
+        _sources = new List<ActivatableObjectSource>();
 
         _activatableObject = GetComponent<ActivatableObject>();
 
@@ -30,7 +30,11 @@ public class ActivatableObjectTarget : MonoBehaviour {
         //Get all the targets that have the same ID
         foreach (GameObject source in sourceArr)
         {
-            if (source.GetComponent<ActivatableObjectSource>() != null && source.GetComponent<ActivatableObjectSource>().AO_ID == AO_ID) _sources.Add(source);
+            ActivatableObjectSource aosource = source.GetComponent<ActivatableObjectSource>();
+            if (aosource != null)
+            {
+                if (aosource.AO_ID == AO_ID) _sources.Add(aosource);
+            }
         }
     }
 	
@@ -41,18 +45,15 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
     public void ActivateFromSource()
     {
-        Debug.Log("Activating from source");
+        Debug.Log("Activating [" + gameObject.name + "] from source");
         bool activate = (_sources.Count > 0);
-        foreach (GameObject source in _sources)
+        foreach (ActivatableObjectSource source in _sources)
         {
-            if (source && source.GetComponent<ActivatableObjectSource>())
+            if (!source.GetComponent<ActivatableObjectSource>().Active)
             {
-                if (!source.GetComponent<ActivatableObjectSource>().Active)
-                {
-                    Debug.Log("Source inactive");
-                    activate = false;
-                    break;
-                }
+                Debug.Log("Source inactive");
+                activate = false;
+                break;
             }
         }
 

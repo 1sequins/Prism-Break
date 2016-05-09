@@ -8,11 +8,11 @@ public class ActivatableObjectSource : MonoBehaviour {
 
     public bool Active { get; set; }
 
-    private List<GameObject> _targets;
+    private List<ActivatableObjectTarget> _targets;
 
 	// Use this for initialization
 	void Start () {
-        _targets = new List<GameObject>();
+        _targets = new List<ActivatableObjectTarget>();
 
         GameObject[] targetArr = GameObject.FindGameObjectsWithTag("AO");
 
@@ -22,7 +22,12 @@ public class ActivatableObjectSource : MonoBehaviour {
         foreach (GameObject target in targetArr)
         {
             Debug.Log(target.name);
-            if (target.GetComponent<ActivatableObjectTarget>() != null && target.GetComponent<ActivatableObjectTarget>().AO_ID == AO_ID) _targets.Add(target);
+
+            ActivatableObjectTarget aotarget = target.GetComponent<ActivatableObjectTarget>();
+            if (aotarget != null)
+            {
+                if (aotarget.AO_ID == AO_ID) _targets.Add(aotarget);
+            }
         }
 	}
 	
@@ -34,19 +39,19 @@ public class ActivatableObjectSource : MonoBehaviour {
     public void Activate()
     {
         Active = true;
-        Debug.Log("Source Activated");
-        foreach (GameObject target in _targets)
+        Debug.Log("Source [" + gameObject.name + "] Activated");
+        foreach (ActivatableObjectTarget target in _targets)
         {
-            if (target && target.GetComponent<ActivatableObjectTarget>()) target.GetComponent<ActivatableObjectTarget>().ActivateFromSource();
+            target.ActivateFromSource();
         }
     }
 
     public void Deactivate()
     {
         Active = false;
-        foreach (GameObject target in _targets)
+        foreach (ActivatableObjectTarget target in _targets)
         {
-            if (target && target.GetComponent<ActivatableObjectTarget>()) target.GetComponent<ActivatableObjectTarget>().Deactivate();
+            target.Deactivate();
         }
     }
 
