@@ -14,10 +14,7 @@ public class EtherealPlatform : ActivatableObject {
         _target = GetComponent<ActivatableObjectTarget>();
         _collider = GetComponent<BoxCollider2D>();
 
-        //Set objects to be default on or off at runtime
-        if (Active) Activate();
-        else Deactivate();
-        Debug.Log("Setting active state");
+        SetInitialState();
     }
 	
 	// Update is called once per frame

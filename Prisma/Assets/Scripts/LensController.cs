@@ -163,6 +163,7 @@ public class LensController : MonoBehaviour
     private void CycleSpectra()
     {
         Debug.Log("Switching Spectra");
+        Camera.main.orthographicSize = 10;
         if (_currentSpectra != null)
         {
             _currentSpectra.GetComponent<PlayerController>().Deactivate();
@@ -178,7 +179,9 @@ public class LensController : MonoBehaviour
 
     private void SelectSpectra()
     {
-        if(_playerFocused)
+        Camera.main.orthographicSize = 7;
+
+        if (_playerFocused)
         {
             DeactivateLens();
             return;

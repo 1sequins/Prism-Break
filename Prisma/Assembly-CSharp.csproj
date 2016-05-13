@@ -52,7 +52,6 @@
      <Compile Include="Assets\Scripts\Activatable Objects\EtherealPlatform.cs" />
      <Compile Include="Assets\Scripts\Activatable Objects\Podium.cs" />
      <Compile Include="Assets\Scripts\Activatable Objects\Switch.cs" />
-     <Compile Include="Assets\Scripts\AttackListener.cs" />
      <Compile Include="Assets\Scripts\Attacks\Attack.cs" />
      <Compile Include="Assets\Scripts\Attacks\NoAttack.cs" />
      <Compile Include="Assets\Scripts\Bullet.cs" />
@@ -74,6 +73,7 @@
      <Compile Include="Assets\Scripts\PlayerHealth.cs" />
      <Compile Include="Assets\Scripts\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\ShotSpectra.cs" />
+     <Compile Include="Assets\Scripts\ShotSpectraLaser.cs" />
      <Compile Include="Assets\Scripts\Spectra.cs" />
      <Compile Include="Assets\Scripts\SpectraDictionary.cs" />
      <Compile Include="Assets\Scripts\SpectraLens.cs" />

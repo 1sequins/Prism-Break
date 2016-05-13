@@ -80,7 +80,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
         Active = false;
         if(_sourceAndTarget)
         {
-            _activatableObject.UnlockSource();
+            _activatableObject.LockSource();
         }
         else
         {

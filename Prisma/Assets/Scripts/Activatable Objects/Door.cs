@@ -10,9 +10,11 @@ public class Door : ActivatableObject {
 
 	// Use this for initialization
 	void Start () {
+
+        _target = GetComponent< ActivatableObjectTarget >();
         _collider = GetComponent<BoxCollider2D>();
-        
-        Debug.Log("Activated object Start");
+
+        SetInitialState();
     }
 	
 	// Update is called once per frame

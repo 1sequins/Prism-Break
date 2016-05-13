@@ -10,16 +10,23 @@ public class ActivatableObject : MonoBehaviour, IActivatable {
 
     // Use this for initialization
     void Start () {
-        //Set objects to be default on or off at runtime
-        if (Active) Activate();
-        else Deactivate();
-        Debug.Log("Setting active state");
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+    protected virtual void SetInitialState()
+    {
+        //Set objects to be default on or off at runtime
+        if (Active) Activate();
+        else Deactivate();
+
+        if (Unlocked) UnlockSource();
+        else LockSource();
+    }
 
     public virtual void Activate()
     {

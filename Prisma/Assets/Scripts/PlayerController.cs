@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 
     #region Public Variables
 
-    public float health = 10.0f;
     public float maxSpeedWalk = 8.0f;
     public float maxSpeedCrouch = 1.0f;
     public float jumpForce = 80.0f;
@@ -19,7 +18,6 @@ public class PlayerController : MonoBehaviour
 
     #region Private Variables
 
-    private PlayerInput m_PlayerInput;
     private PlayerHealth m_PlayerHealth;
 
     private float _prevInputJump;
@@ -67,7 +65,6 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
 	void Start () 
     {
-        m_PlayerInput = GetComponent<PlayerInput>();
         m_PlayerHealth = GetComponent<PlayerHealth>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
@@ -124,12 +121,12 @@ public class PlayerController : MonoBehaviour
 
     private void ProcessInput()
     {
-        if (m_PlayerInput.GetAxisRawPressed("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
             Jump();
         }
 
-        if (m_PlayerInput.GetAxisRaw("Dash") > 0.0f)
+        if (Input.GetAxisRaw("Dash") > 0.0f)
         {
             if(_grounded)
             {
@@ -139,12 +136,12 @@ public class PlayerController : MonoBehaviour
             //transform.FindChild("Spectra_Dash").gameObject.GetComponent<DashSpectra>().Dash(_facingRight);
         }
 
-        if (m_PlayerInput.GetAxisRawPressed("Fire"))
+        if (Input.GetButtonDown("Fire"))
         {
             GetComponent<ShotSpectra>().Fire(_facingRight);
         }
 
-        if(m_PlayerInput.GetAxisRawPressed("Shield"))
+        if(Input.GetButtonDown("Shield"))
         {
             if(_interactableObj != null)
             {
