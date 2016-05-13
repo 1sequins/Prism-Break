@@ -13,7 +13,7 @@ public class PlayerInput : MonoBehaviour {
         _prevInput.Add("Jump", 0.0f);
         _prevInput.Add("Dash", 0.0f);
         _prevInput.Add("Fire", 0.0f);
-        _prevInput.Add("Shield", 0.0f);
+        _prevInput.Add("Interact", 0.0f);
 
         keys = new string[_prevInput.Count];
         _prevInput.Keys.CopyTo(keys, 0);

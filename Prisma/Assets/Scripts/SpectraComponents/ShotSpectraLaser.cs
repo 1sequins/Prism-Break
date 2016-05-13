@@ -4,6 +4,7 @@ using System.Collections;
 public class ShotSpectraLaser : MonoBehaviour {
 
     public Transform laserOrigin;
+    public LayerMask laserMask;
     private PlayerController _controller;
     private LineRenderer _laser;
 
@@ -15,11 +16,13 @@ public class ShotSpectraLaser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(Input.GetButtonDown("Fire"))
+        if(_controller.CanControl)
         {
-            Debug.Log("Fire pressed");
-            StopCoroutine("FireLaser");
-            StartCoroutine("FireLaser");
+            if (Input.GetButtonDown("Fire"))
+            {
+                StopCoroutine("FireLaser");
+                StartCoroutine("FireLaser");
+            }
         }
 	}
 
@@ -31,7 +34,7 @@ public class ShotSpectraLaser : MonoBehaviour {
         {
             Ray ray = new Ray(Vector2.zero, laserOrigin.right);
             Vector3 direction = _controller.FacingRight ? laserOrigin.right : -laserOrigin.right;
-            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position,  direction, 100);
+            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position,  direction, 100, laserMask);
             _laser.SetPosition(0, ray.origin);
             if (hit.collider != null)
             _laser.SetPosition(1, laserOrigin.InverseTransformPoint(hit.point));

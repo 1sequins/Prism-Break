@@ -16,8 +16,6 @@ public class Spikes : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Ow");
-        Rigidbody2D target = collision.gameObject.GetComponent<Rigidbody2D>();
-
         PlayerController test = collision.gameObject.GetComponent<PlayerController>();
         test.Hurt();
 

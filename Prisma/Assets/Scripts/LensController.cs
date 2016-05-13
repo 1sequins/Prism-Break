@@ -22,7 +22,6 @@ public class LensController : MonoBehaviour
 
     private Dictionary<ColorEnum, LensMapping> d_ColorInput;
 
-    private PlayerInput m_PlayerInput;
     private SpectraDictionary m_SpectraDictionary;
 
     private bool _playerFocused;
@@ -46,7 +45,6 @@ public class LensController : MonoBehaviour
     void Start()
     {
         LoadColorDictionary();
-        m_PlayerInput = GetComponent<PlayerInput>();
         m_SpectraDictionary = GameObject.Find("SpectraDictionary").GetComponent<SpectraDictionary>();
         _spectraList = new List<GameObject>();
         _spectraList.AddRange(GameObject.FindGameObjectsWithTag("Player"));
@@ -263,7 +261,7 @@ public class LensController : MonoBehaviour
 
     private bool GetClickedObject()
     {
-        Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         return false;
     }

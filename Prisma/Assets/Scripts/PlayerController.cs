@@ -32,9 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool _facingRight = true;
     private bool _canJump = false;
     private bool _canDoubleJump = false;
-    private bool _shielded = false;
     private bool _jumping = false;
-    private bool _keepCrouch = false;
     private bool _crouching = false;
     private bool _grounded = false;
     private bool _invulnerable = false;
@@ -136,21 +134,6 @@ public class PlayerController : MonoBehaviour
             //transform.FindChild("Spectra_Dash").gameObject.GetComponent<DashSpectra>().Dash(_facingRight);
         }
 
-        if (Input.GetButtonDown("Fire"))
-        {
-            GetComponent<ShotSpectra>().Fire(_facingRight);
-        }
-
-        if(Input.GetButtonDown("Shield"))
-        {
-            if(_interactableObj != null)
-            {
-                _interactableObj.GetComponent<IInteractable>().Interact(gameObject);
-            }
-            //_shielded = !_shielded;
-            //Debug.Log("Shielded");
-        }
-
         if (Input.GetMouseButtonDown(0))
         {
             if (!GetClickedObject())
@@ -167,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     private bool GetClickedObject()
     {
-        Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         return false;
     }
@@ -252,26 +235,4 @@ public class PlayerController : MonoBehaviour
         m_rigidbody.velocity = new Vector2(0, 0);
         m_anim.SetFloat("Speed", 0);
     }
-
-    #region Events
-
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        GameObject obj = collider.gameObject;
-        if(obj.GetComponent<IInteractable>() != null)
-        {
-            Debug.Log("Interactable");
-            _interactableObj = obj;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collider)
-    {
-        if(_interactableObj == collider.gameObject)
-        {
-            _interactableObj = null;
-        }
-    }
-
-    #endregion
 }
