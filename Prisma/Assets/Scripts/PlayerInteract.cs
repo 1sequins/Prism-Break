@@ -30,7 +30,6 @@ public class PlayerInteract : MonoBehaviour {
         GameObject obj = collider.gameObject;
         if (obj.GetComponent<IInteractable>() != null)
         {
-            Debug.Log("Interactable");
             _interactableObj = obj;
         }
     }

@@ -40,7 +40,7 @@ public class ActivatableObjectSource : MonoBehaviour {
         Debug.Log("Source [" + gameObject.name + "] Activated");
         foreach (ActivatableObjectTarget target in _targets)
         {
-            target.ActivateFromSource();
+            target.ActivateFromSource(this);
         }
     }
 
@@ -49,7 +49,7 @@ public class ActivatableObjectSource : MonoBehaviour {
         Active = false;
         foreach (ActivatableObjectTarget target in _targets)
         {
-            target.Deactivate();
+            target.DeactivateFromSource(this);
         }
     }
 

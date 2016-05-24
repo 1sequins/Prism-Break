@@ -43,20 +43,129 @@ public class ActivatableObjectTarget : MonoBehaviour {
 	
 	}
 
-    public void ActivateFromSource()
+    public void ActivateFromSource(ActivatableObjectSource source)
     {
         bool activate = (_sources.Count > 0);
-        foreach (ActivatableObjectSource source in _sources)
+        if (source.GetType() == typeof(AO_CompondSource))
         {
-            if (!source.GetComponent<ActivatableObjectSource>().Active)
+            activate = ActivateFromCompoundSource((AO_CompondSource)source);
+        }
+        else if(source.GetType() == typeof(AO_ToggleSource))
+        {
+            activate = ToggleFromSource((AO_ToggleSource)source);
+            if (activate) Activate();
+            else Deactivate();
+            return;
+        }
+        else
+        {
+            activate = ActivateFromSerialSource();
+        }
+
+        if (activate) Activate();
+    }
+
+    /// <summary>
+    /// Only activates if all compound sources are active
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public bool ActivateFromCompoundSource(AO_CompondSource source)
+    {
+        bool activate = (_sources.Count > 0);
+        foreach (ActivatableObjectSource s in _sources)
+        {
+            if (!s.GetComponent<ActivatableObjectSource>().Active)
             {
                 activate = false;
                 break;
             }
         }
 
-        if (activate) Activate();
-        else Deactivate();
+        return activate;
+    }
+
+    /// <summary>
+    /// Toggles the active state, regardless of other source's states
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public bool ToggleFromSource(AO_ToggleSource source)
+    {
+        Debug.Log("Toggling Activation");
+        Debug.Log(!Active);
+        return !Active;
+    }
+
+    /// <summary>
+    /// Activates if any of the sources are active
+    /// </summary>
+    /// <returns></returns>
+    public bool ActivateFromSerialSource()
+    {
+        bool activate = false;
+        foreach (ActivatableObjectSource s in _sources)
+        {
+            if (s.Active)
+            {
+                activate = true;
+                break;
+            }
+        }
+
+        return activate;
+    }
+
+    public void DeactivateFromSource(ActivatableObjectSource source)
+    {
+        bool deactivate = (_sources.Count == 0);
+        if (source.GetType() == typeof(AO_CompondSource))
+        {
+            deactivate = DeactivateFromCompoundSource((AO_CompondSource)source);
+        }
+        else if (source.GetType() == typeof(AO_ToggleSource))
+        {
+            deactivate = !ToggleFromSource((AO_ToggleSource)source);
+            if (deactivate) Deactivate();
+            else Activate();
+            return;
+        }
+        else
+        {
+            deactivate = DeactivateFromSerialSource();
+        }
+
+        if (deactivate) Deactivate();
+    }
+
+    public bool DeactivateFromCompoundSource(AO_CompondSource source)
+    {
+        bool deactivate = false;
+        foreach (ActivatableObjectSource s in _sources)
+        {
+            if (!s.Active)
+            {
+                deactivate = true;
+                break;
+            }
+        }
+
+        return deactivate;
+    }
+
+    public bool DeactivateFromSerialSource()
+    {
+        bool deactivate = true;
+        foreach (ActivatableObjectSource s in _sources)
+        {
+            if (s.Active)
+            {
+                deactivate = false;
+                break;
+            }
+        }
+
+        return deactivate;
     }
 
     public void Activate()
