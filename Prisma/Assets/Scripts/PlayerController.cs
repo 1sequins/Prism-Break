@@ -39,9 +39,6 @@ public class PlayerController : MonoBehaviour
     private float _groundCheckRadius = 0.03f;
     private int _jumpTimer = 0;
     private int _jumpDelay = 1;
-    private bool _hurt = false;
-    private float _hurtTimer = 0.0f;
-    private float _hurtDelay = 0.4f;
 
     private float distToGround;
 
@@ -81,15 +78,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_hurt)
-        {
-            _hurtTimer -= Time.deltaTime;
-            if (_hurtTimer <= 0)
-            {
-                CanControl = true;
-                _hurt = false;
-            }
-        }
         m_anim.SetFloat("VSpeed", m_rigidbody.velocity.y);
 
         Land();
@@ -164,6 +152,7 @@ public class PlayerController : MonoBehaviour
             m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x, 0);
             m_rigidbody.AddForce(new Vector2(0, jumpForce));
         }
+        /*
        else if(_canDoubleJump)
        {
             _canDoubleJump = false;
@@ -171,6 +160,7 @@ public class PlayerController : MonoBehaviour
             m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x, 0);
             m_rigidbody.AddForce(new Vector2(0, jumpForce));
        }
+       */
     }
 
     private void Land()
@@ -198,19 +188,6 @@ public class PlayerController : MonoBehaviour
         }
 
         if (!_grounded) _canJump = false;
-    }
-
-    public void Hurt()
-    {
-        if(!_invulnerable)
-        {
-            _hurt = true;
-            CanControl = false;
-            //_invulnerable = true;
-            m_rigidbody.velocity = new Vector2(0, 0);
-            m_rigidbody.AddForce(new Vector2(-70, 70));
-            _hurtTimer = _hurtDelay;
-        }
     }
 
     public void Flip()

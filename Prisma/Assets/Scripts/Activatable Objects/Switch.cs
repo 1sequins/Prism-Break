@@ -34,7 +34,7 @@ public class Switch : ActivatableObject, IInteractable {
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.gameObject.GetComponent<Bullet>())
+        if(collider.GetComponent<Bullet>())
         {
             Debug.Log("Switch Hit");
             Activate();

@@ -37,9 +37,13 @@ public class ShotSpectraLaser : MonoBehaviour {
             RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position,  direction, 100, laserMask);
             _laser.SetPosition(0, ray.origin);
             if (hit.collider != null)
-            _laser.SetPosition(1, laserOrigin.InverseTransformPoint(hit.point));
+            {
+                _laser.SetPosition(1, laserOrigin.InverseTransformPoint(hit.point));
+            }
             else
+            {
                 _laser.SetPosition(1, ray.origin);
+            }
 
             yield return null;
         }

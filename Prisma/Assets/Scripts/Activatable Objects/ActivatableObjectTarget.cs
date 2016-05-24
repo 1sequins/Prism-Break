@@ -45,13 +45,11 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
     public void ActivateFromSource()
     {
-        Debug.Log("Activating [" + gameObject.name + "] from source");
         bool activate = (_sources.Count > 0);
         foreach (ActivatableObjectSource source in _sources)
         {
             if (!source.GetComponent<ActivatableObjectSource>().Active)
             {
-                Debug.Log("Source inactive");
                 activate = false;
                 break;
             }
@@ -63,7 +61,6 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
     public void Activate()
     {
-        Debug.Log("Target Activated");
         Active = true;
         if (_sourceAndTarget)
         {

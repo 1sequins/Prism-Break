@@ -17,7 +17,7 @@ public class Spikes : MonoBehaviour {
     {
         Debug.Log("Ow");
         PlayerController test = collision.gameObject.GetComponent<PlayerController>();
-        test.Hurt();
+        
 
         //target.velocity = new Vector2(-300, 200);
 

@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObjectTarget.cs" />
      <Compile Include="Assets\Scripts\Activatable Objects\Door.cs" />
      <Compile Include="Assets\Scripts\Activatable Objects\EtherealPlatform.cs" />
+     <Compile Include="Assets\Scripts\Activatable Objects\OpticCapture.cs" />
      <Compile Include="Assets\Scripts\Activatable Objects\Podium.cs" />
      <Compile Include="Assets\Scripts\Activatable Objects\SpectraLens.cs" />
      <Compile Include="Assets\Scripts\Activatable Objects\Switch.cs" />
@@ -58,6 +59,7 @@
      <Compile Include="Assets\Scripts\Bullet.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Dash.cs" />
+     <Compile Include="Assets\Scripts\DestructableObject.cs" />
      <Compile Include="Assets\Scripts\Enums\ColorEnum.cs" />
      <Compile Include="Assets\Scripts\Enums\FTRTileTypeEnum.cs" />
      <Compile Include="Assets\Scripts\Fill The Room\FTRBoardManager.cs" />

@@ -21,8 +21,6 @@ public class ActivatableObjectSource : MonoBehaviour {
         //Get all the targets that have the same ID
         foreach (GameObject target in targetArr)
         {
-            Debug.Log(target.name);
-
             ActivatableObjectTarget aotarget = target.GetComponent<ActivatableObjectTarget>();
             if (aotarget != null)
             {
