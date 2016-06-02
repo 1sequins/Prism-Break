@@ -14,8 +14,6 @@ public class LensController : MonoBehaviour
 
     #region Public Variables
 
-    public List<GameObject> _spectraList;
-
     #endregion
 
     #region Private Variables
@@ -30,7 +28,7 @@ public class LensController : MonoBehaviour
     private ColorEnum _focusedColor;
 
     private bool _active;
-    private bool _switchFocus;
+    //private bool _switchFocus;
 
     #endregion
 
@@ -46,8 +44,6 @@ public class LensController : MonoBehaviour
     {
         LoadColorDictionary();
         m_SpectraDictionary = GameObject.Find("SpectraDictionary").GetComponent<SpectraDictionary>();
-        _spectraList = new List<GameObject>();
-        _spectraList.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         _active = false;
         _playerFocused = false;
     }
@@ -74,12 +70,12 @@ public class LensController : MonoBehaviour
 
     private void ResetColorDictionary()
     {
-        d_ColorInput[ColorEnum.RED] = new LensMapping { Active = false, Locked = false, Spectra = null };
-        d_ColorInput[ColorEnum.ORANGE] = new LensMapping { Active = false, Locked = false, Spectra = null };
-        d_ColorInput[ColorEnum.YELLOW] = new LensMapping { Active = false, Locked = false, Spectra = null };
-        d_ColorInput[ColorEnum.GREEN] = new LensMapping { Active = false, Locked = false, Spectra = null };
-        d_ColorInput[ColorEnum.BLUE] = new LensMapping { Active = false, Locked = false, Spectra = null };
-        d_ColorInput[ColorEnum.PURPLE] = new LensMapping { Active = false, Locked = false, Spectra = null };
+        d_ColorInput[ColorEnum.RED] = new LensMapping { Active = false, Locked = true, Spectra = null };
+        d_ColorInput[ColorEnum.ORANGE] = new LensMapping { Active = false, Locked = true, Spectra = null };
+        d_ColorInput[ColorEnum.YELLOW] = new LensMapping { Active = false, Locked = true, Spectra = null };
+        d_ColorInput[ColorEnum.GREEN] = new LensMapping { Active = false, Locked = true, Spectra = null };
+        d_ColorInput[ColorEnum.BLUE] = new LensMapping { Active = false, Locked = true, Spectra = null };
+        d_ColorInput[ColorEnum.PURPLE] = new LensMapping { Active = false, Locked = true, Spectra = null };
     }
 
     private void MapSpectraColors()
@@ -92,7 +88,8 @@ public class LensController : MonoBehaviour
         {
             Debug.Log(string.Format("Color [{0}] active in lens", ce));
             LensMapping map = d_ColorInput[ce];
-            map.Locked = true;
+            map.Locked = false;
+            d_ColorInput[ce] = map;
         }
     }
 
@@ -100,10 +97,10 @@ public class LensController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            SwitchToPlayer();
+            SwitchToPlayer(true);
         }
-        if(_switchFocus)
-        {
+        //if(_switchFocus)
+        //{
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 SwitchSpectra(ColorEnum.RED);
@@ -128,21 +125,27 @@ public class LensController : MonoBehaviour
             {
                 SwitchSpectra(ColorEnum.PURPLE);
             }
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            SwitchToPlayer(false);
         }
+        //}
 
+        /*
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            _switchFocus = !_switchFocus;
+            //_switchFocus = !_switchFocus;
 
-            if(_switchFocus)
-            {
+            //if(_switchFocus)
+            //{
                 CycleSpectra();
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 SelectSpectra();
-            }
+            //}
         }
+        */
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -171,7 +174,7 @@ public class LensController : MonoBehaviour
         else
         {
             Debug.Log("Focusing on Player");
-            SwitchToPlayer();
+            SwitchToPlayer(true);
         }
     }
 
@@ -179,9 +182,11 @@ public class LensController : MonoBehaviour
     {
         Camera.main.orthographicSize = 7;
 
+        _currentSpectra.GetComponent<PlayerController>().Deactivate();
+
         if (_playerFocused)
         {
-            DeactivateLens();
+            //DeactivateLens();
             return;
         }
 
@@ -228,35 +233,33 @@ public class LensController : MonoBehaviour
             Camera.main.GetComponent<Camera2DFollow>().target = _lens.transform;
         }
         _playerFocused = false;
+        SelectSpectra();
     }
 
-    private void SwitchSpectra(string name)
+    private void SwitchToPlayer(bool inLens)
     {
-        if(_currentSpectra != null)
-            _currentSpectra.GetComponent<PlayerController>().Deactivate();
-
-        foreach(GameObject go in _spectraList)
-        {
-            if(go.name == name)
-            {
-                _currentSpectra = go;
-                break;
-            }
-        }
-
-        _currentSpectra.GetComponent<PlayerController>().Activate();
-        Camera.main.GetComponent<Camera2DFollow>().target = _currentSpectra.transform;
-    }
-
-    private void SwitchToPlayer()
-    {
+        GameObject _oldSpectra = null;
         if (_currentSpectra != null)
+        {
+            if(!inLens)
+            {
+                _oldSpectra = _currentSpectra;
+            }
+
             _currentSpectra.GetComponent<PlayerController>().Deactivate();
+        }
 
         _playerFocused = true;
 
         _currentSpectra = GameObject.FindGameObjectWithTag("Player");
         Camera.main.GetComponent<Camera2DFollow>().target = _currentSpectra.transform;
+
+        if(!inLens && _oldSpectra != null)
+        {
+            _currentSpectra.transform.position = _oldSpectra.transform.position;
+        }
+
+        DeactivateLens();
     }
 
     private bool GetClickedObject()
@@ -286,8 +289,10 @@ public class LensController : MonoBehaviour
         _lens = lens;
         _currentSpectra = null;
         MapSpectraColors();
-        _switchFocus = true;
-        CycleSpectra();
+        //_switchFocus = true;
+        _currentSpectra = GameObject.FindGameObjectWithTag("Player");
+        _currentSpectra.GetComponent<PlayerController>().Deactivate();
+        //CycleSpectra();
     }
 
     public void DeactivateLens()

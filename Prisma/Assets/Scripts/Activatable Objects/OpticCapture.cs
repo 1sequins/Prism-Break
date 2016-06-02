@@ -30,7 +30,10 @@ public class OpticCapture : ActivatableObject {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if(Active && _activeSpectra == null)
+        {
+            Deactivate();
+        }
 	}
 
     public override void Activate()
