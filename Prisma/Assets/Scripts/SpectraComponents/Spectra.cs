@@ -13,7 +13,6 @@ public class Spectra : MonoBehaviour
     private Rigidbody2D m_rigidbody;
 
     private bool _active = true;
-    private bool _primaryForm = true;
 
     public bool Active
     {

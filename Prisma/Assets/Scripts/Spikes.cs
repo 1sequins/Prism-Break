@@ -16,7 +16,6 @@ public class Spikes : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Ow");
-        PlayerController test = collision.gameObject.GetComponent<PlayerController>();
         
 
         //target.velocity = new Vector2(-300, 200);
