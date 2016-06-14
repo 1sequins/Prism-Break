@@ -5,12 +5,9 @@ public class UnstableSpectra : MonoBehaviour {
 
     public LayerMask unstableMask;
 
-    private PlayerController _controller;
-
     // Use this for initialization
     void Start()
     {
-        _controller = GetComponent<PlayerController>();
         MakeUnstable();
     }
 

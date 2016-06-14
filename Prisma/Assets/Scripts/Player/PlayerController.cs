@@ -20,27 +20,26 @@ public class PlayerController : MonoBehaviour
 
     private PlayerHealth m_PlayerHealth;
 
-    private float _prevInputJump;
-
     private Rigidbody2D m_rigidbody;
     private Animator m_anim;
 
     private GameObject _interactableObj;
 
+    private GameObject _movingPlatform;
+
     private float _currentSpeed;
 
     private bool _facingRight = true;
     private bool _canJump = false;
-    private bool _canDoubleJump = false;
-    private bool _jumping = false;
     private bool _crouching = false;
     private bool _grounded = false;
-    private bool _invulnerable = false;
     private float _groundCheckRadius = 0.03f;
     private int _jumpTimer = 0;
     private int _jumpDelay = 1;
 
-    private float distToGround;
+    private Vector3 _activeLocalPlatformPoint;
+    private Vector3 _activeGlobalPlatformPoint;
+    private Vector3 _platformVelocity;
 
     #endregion
 
@@ -63,7 +62,6 @@ public class PlayerController : MonoBehaviour
         m_PlayerHealth = GetComponent<PlayerHealth>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
-        distToGround = GetComponent<BoxCollider2D>().bounds.extents.y;
         CanControl = true;
 	}
 	
@@ -78,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        Vector2 velocity = Vector2.zero;
         m_anim.SetFloat("VSpeed", m_rigidbody.velocity.y);
 
         Land();
@@ -86,11 +85,31 @@ public class PlayerController : MonoBehaviour
 
         _crouching = false;
         m_anim.SetBool("Crouching", _crouching);
+
+        if(_movingPlatform != null)
+        {
+            Vector3 newGlobalPlatformPoint = _movingPlatform.transform.TransformPoint(_activeLocalPlatformPoint);
+            Vector3 moveDist = newGlobalPlatformPoint - _activeGlobalPlatformPoint;
+            if (moveDist != Vector3.zero)
+            {
+                transform.Translate(moveDist);
+            }
+            //velocity += _movingPlatform.Position - _movingPlatform.PreviousPosition;
+            //velocity += new Vector2(10, 0);
+        }
+        else
+        {
+            _platformVelocity = Vector3.zero;
+        }
         
 
         if(CanControl)
         {
             float move = Input.GetAxis("Horizontal");
+            if(Mathf.Abs(move) > 0)
+            {
+                transform.parent = null;
+            }
             m_anim.SetFloat("Speed", Mathf.Abs(move));
             if(move > 0)
             {
@@ -100,10 +119,18 @@ public class PlayerController : MonoBehaviour
             {
                 if (_facingRight) Flip();
             }
-
-            m_rigidbody.velocity = new Vector2(move * _currentSpeed, m_rigidbody.velocity.y);
+            velocity += new Vector2(move * _currentSpeed, 0);
         }
-    }
+
+        velocity += new Vector2(0, m_rigidbody.velocity.y);
+        m_rigidbody.velocity = velocity;
+
+        if (_movingPlatform != null)
+        {
+            _activeGlobalPlatformPoint = transform.position;
+            _activeLocalPlatformPoint = _movingPlatform.transform.InverseTransformPoint(transform.position);
+        }
+        }
 
     private void ProcessInput()
     {
@@ -152,15 +179,6 @@ public class PlayerController : MonoBehaviour
             m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x, 0);
             m_rigidbody.AddForce(new Vector2(0, jumpForce));
         }
-        /*
-       else if(_canDoubleJump)
-       {
-            _canDoubleJump = false;
-            _jumping = true;
-            m_rigidbody.velocity = new Vector2(m_rigidbody.velocity.x, 0);
-            m_rigidbody.AddForce(new Vector2(0, jumpForce));
-       }
-       */
     }
 
     private void Land()
@@ -171,7 +189,6 @@ public class PlayerController : MonoBehaviour
             if (_jumpTimer <= 0)
             {
                 _canJump = true;
-                _canDoubleJump = true;
             }
         }
 
@@ -181,13 +198,15 @@ public class PlayerController : MonoBehaviour
         if (!lastGround && _grounded)
         {
             _canJump = false;
-            _canDoubleJump = false;
             _jumpTimer = _jumpDelay;
-            _jumping = false;
-
         }
 
-        if (!_grounded) _canJump = false;
+        if (!_grounded)
+        {
+            transform.parent = null;
+            _canJump = false;
+            _movingPlatform = null;
+        }
     }
 
     public void Flip()
@@ -212,4 +231,26 @@ public class PlayerController : MonoBehaviour
         m_rigidbody.velocity = new Vector2(0, 0);
         m_anim.SetFloat("Speed", 0);
     }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Moving Platform")
+        {
+            //transform.parent = collision.gameObject.transform;
+            _movingPlatform = collision.gameObject;
+            _activeGlobalPlatformPoint = transform.position;
+            _activeLocalPlatformPoint = _movingPlatform.transform.InverseTransformPoint(transform.position);
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Moving Platform")
+        {
+            transform.parent = null;
+            _movingPlatform = null;
+        }
+    }
+
+
 }

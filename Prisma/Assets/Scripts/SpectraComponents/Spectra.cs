@@ -10,8 +10,6 @@ public class Spectra : MonoBehaviour
 
     #endregion
 
-    private Rigidbody2D m_rigidbody;
-
     private bool _active = true;
 
     public bool Active
@@ -23,8 +21,7 @@ public class Spectra : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-        //Deactivate();
-        m_rigidbody = GetComponent<Rigidbody2D>();
+
 	}
 	
 	// Update is called once per frame

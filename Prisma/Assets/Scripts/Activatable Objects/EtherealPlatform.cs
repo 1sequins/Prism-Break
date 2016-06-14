@@ -4,14 +4,10 @@ using System.Collections;
 [RequireComponent(typeof(ActivatableObjectTarget))]
 public class EtherealPlatform : ActivatableObject {
 
-    private ActivatableObjectTarget _target;
-
     private BoxCollider2D _collider;
 
 	// Use this for initialization
 	void Start () {
-
-        _target = GetComponent<ActivatableObjectTarget>();
         _collider = GetComponent<BoxCollider2D>();
 
         SetInitialState();

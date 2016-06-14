@@ -4,13 +4,11 @@ using System.Collections;
 [RequireComponent(typeof(ActivatableObjectTarget))]
 public class RetractablePlatform : ActivatableObject {
 
-    private ActivatableObjectTarget _target;
     private LayerMask _originalLayer;
     private BoxCollider2D _collider;
 
 	// Use this for initialization
 	void Start () {
-        _target = GetComponent<ActivatableObjectTarget>();
         _originalLayer = gameObject.layer;
         _collider = GetComponent<BoxCollider2D>();
 

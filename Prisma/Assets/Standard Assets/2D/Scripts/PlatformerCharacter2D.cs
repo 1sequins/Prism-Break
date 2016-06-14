@@ -11,6 +11,12 @@ namespace UnityStandardAssets._2D
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
 
+        // Moving platform support
+        private Transform activePlatform;
+        private Vector2 activeLocalPlatformPoint;
+        private Vector2 activeGlobalPlatformPoint;
+        private Vector2 lastPlatformVelocity;
+
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
         private bool m_Grounded;            // Whether or not the player is grounded.
@@ -44,8 +50,41 @@ namespace UnityStandardAssets._2D
             }
             m_Anim.SetBool("Ground", m_Grounded);
 
+            // Moving platform support
+            if (activePlatform != null)
+            {
+                Vector2 newGlobalPlatformPoint = activePlatform.TransformPoint(activeLocalPlatformPoint);
+                float moveDistance = Vector2.Distance(newGlobalPlatformPoint, activeGlobalPlatformPoint);
+                if (moveDistance != 0)
+                    Move(moveDistance, false, false);
+                lastPlatformVelocity = (newGlobalPlatformPoint - activeGlobalPlatformPoint) / Time.deltaTime;
+                // If you want to support moving platform rotation as well:
+                //var newGlobalPlatformRotation = activePlatform.rotation * activeLocalPlatformRotation;
+                //var rotationDiff = newGlobalPlatformRotation * Quaternion.Inverse(activeGlobalPlatformRotation);
+
+                // Prevent rotation of the local up vector
+                //rotationDiff = Quaternion.FromToRotation(rotationDiff * transform.up, transform.up) * rotationDiff;
+                //transform.rotation = rotationDiff * transform.rotation;
+            }
+            else {
+                lastPlatformVelocity = Vector3.zero;
+            }
+
+            activePlatform = null;
+
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
+
+            // Moving platforms support
+            if (activePlatform != null)
+            {
+                activeGlobalPlatformPoint = transform.position;
+                activeLocalPlatformPoint = activePlatform.InverseTransformPoint(transform.position);
+                // If you want to support moving platform rotation as well:
+                //activeGlobalPlatformRotation = transform.rotation;
+                //activeLocalPlatformRotation = Quaternion.Inverse(activePlatform.rotation) * transform.rotation;
+            }
+
         }
 
 
@@ -60,6 +99,8 @@ namespace UnityStandardAssets._2D
                     crouch = true;
                 }
             }
+
+            
 
             // Set whether or not the character is crouching in the animator
             m_Anim.SetBool("Crouch", crouch);
@@ -109,6 +150,16 @@ namespace UnityStandardAssets._2D
             Vector3 theScale = transform.localScale;
             theScale.x *= -1;
             transform.localScale = theScale;
+        }
+
+        void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            // Make sure we are really standing on a straight platform
+            // Not on the underside of one and not falling down from it either!
+            if (hit.moveDirection.y < -0.9 && hit.normal.y > 0.5)
+            {
+                activePlatform = hit.collider.transform;
+            }
         }
     }
 }
