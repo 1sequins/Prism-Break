@@ -24,7 +24,8 @@ public class PlayerHealth : MonoBehaviour {
         if (!stasis) DecayHealth();
         if (healing) RegenerateHealth();
 
-        healthText.text = Mathf.Floor(_currentHealth).ToString();
+        if(healthText != null)
+            healthText.text = Mathf.Floor(_currentHealth).ToString();
 	}
 
     private void DecayHealth()

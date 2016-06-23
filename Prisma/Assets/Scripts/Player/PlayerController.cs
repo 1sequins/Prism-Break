@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     public float maxSpeedWalk = 8.0f;
     public float maxSpeedCrouch = 1.0f;
     public float jumpForce = 80.0f;
-    public float dashForce = 40.0f;
 
     public Transform groundCheck;
     public LayerMask groundLayer;
@@ -34,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool _crouching = false;
     private bool _grounded = false;
     private float _groundCheckRadius = 0.03f;
+    private float _groundCheckOffset = 0.3f;
     private int _jumpTimer = 0;
     private int _jumpDelay = 1;
 
@@ -94,8 +94,6 @@ public class PlayerController : MonoBehaviour
             {
                 transform.Translate(moveDist);
             }
-            //velocity += _movingPlatform.Position - _movingPlatform.PreviousPosition;
-            //velocity += new Vector2(10, 0);
         }
         else
         {
@@ -146,7 +144,6 @@ public class PlayerController : MonoBehaviour
                 _crouching = true;
                 m_anim.SetBool("Crouching", _crouching);
             }
-            //transform.FindChild("Spectra_Dash").gameObject.GetComponent<DashSpectra>().Dash(_facingRight);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -203,7 +200,6 @@ public class PlayerController : MonoBehaviour
 
         if (!_grounded)
         {
-            transform.parent = null;
             _canJump = false;
             _movingPlatform = null;
         }
@@ -232,6 +228,20 @@ public class PlayerController : MonoBehaviour
         m_anim.SetFloat("Speed", 0);
     }
 
+    public void EnablePhysics()
+    {
+        m_rigidbody.gravityScale = 1;
+        GetComponent<BoxCollider2D>().isTrigger = false;
+        GetComponent<CircleCollider2D>().isTrigger = false;
+    }
+
+    public void DisablePhysics()
+    {
+        m_rigidbody.gravityScale = 0;
+        //GetComponent<BoxCollider2D>().isTrigger = true;
+        //GetComponent<CircleCollider2D>().isTrigger = true;
+    }
+
     void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Moving Platform")
@@ -247,7 +257,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Moving Platform")
         {
-            transform.parent = null;
             _movingPlatform = null;
         }
     }
