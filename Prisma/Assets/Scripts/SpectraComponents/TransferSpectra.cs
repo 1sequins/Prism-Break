@@ -5,9 +5,12 @@ using System.Collections.Generic;
 public class TransferSpectra : MonoBehaviour {
 
     public float transferSpeed;
+    
+    //TODO: Add animator state for when in absorber
 
     private List<Transform> _absorbers;
     private Transform _activeAbsorber;
+    private Absorber _activeAbsorberScript;
 
     private PlayerController _controller;
 
@@ -28,9 +31,10 @@ public class TransferSpectra : MonoBehaviour {
                 StartCoroutine("MoveToAbsorber");
             }
         }
-        if(Input.GetKeyDown(KeyCode.F))
+        if(Input.GetAxisRaw("Dash") > 0.0f)
         {
             StopAllCoroutines();
+            ExitAbsorber();
             _controller.EnablePhysics();
             _controller.Activate();
         }
@@ -42,15 +46,34 @@ public class TransferSpectra : MonoBehaviour {
 
         if(hit && hit.tag == "Absorber")
         {
+            if(_activeAbsorber)
+            {
+                if(_activeAbsorberScript.linkedAbsorbers.Contains(hit.gameObject))
+                {
+                    _activeAbsorberScript.HideLinks();
+                    _activeAbsorber = hit.transform;
+                    _activeAbsorberScript = _activeAbsorber.GetComponent<Absorber>();
+                    Debug.Log("Can jump to absorber");
+                    return true;
+                }
+            }
             if (_absorbers.Count > 0 && _absorbers.Contains(hit.transform))
             {
                 _activeAbsorber = hit.transform;
+                _activeAbsorberScript = _activeAbsorber.GetComponent<Absorber>();
                 Debug.Log("Can jump to absorber");
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void ExitAbsorber()
+    {
+        _activeAbsorberScript.HideLinks();
+        _activeAbsorber = null;
+        _activeAbsorberScript = null;
     }
 
     IEnumerator MoveToAbsorber()
@@ -67,6 +90,8 @@ public class TransferSpectra : MonoBehaviour {
             transform.position = Vector2.Lerp(originalPosition, _activeAbsorber.position, t);
             yield return 0;
         }
+
+        _activeAbsorberScript.DisplayLinks();
     }
 
     void OnTriggerEnter2D(Collider2D collider)
