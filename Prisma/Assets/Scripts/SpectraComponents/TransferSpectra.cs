@@ -22,22 +22,26 @@ public class TransferSpectra : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if(GetClickedObject())
+
+        //if(_controller.CanControl)
+        //{
+            if (Input.GetMouseButtonDown(0))
             {
-                _controller.DisablePhysics();
-                StopAllCoroutines();
-                StartCoroutine("MoveToAbsorber");
+                if (GetClickedObject())
+                {
+                    _controller.DisablePhysics();
+                    StopAllCoroutines();
+                    StartCoroutine("MoveToAbsorber");
+                }
             }
-        }
-        if(Input.GetAxisRaw("Dash") > 0.0f)
-        {
-            StopAllCoroutines();
-            ExitAbsorber();
-            _controller.EnablePhysics();
-            _controller.Activate();
-        }
+            if (Input.GetAxisRaw("Dash") > 0.0f)
+            {
+                StopAllCoroutines();
+                ExitAbsorber();
+                _controller.EnablePhysics();
+                _controller.Activate();
+            }
+        //}
     }
 
     private bool GetClickedObject()
@@ -71,7 +75,8 @@ public class TransferSpectra : MonoBehaviour {
 
     private void ExitAbsorber()
     {
-        _activeAbsorberScript.HideLinks();
+        if(_activeAbsorber != null)
+            _activeAbsorberScript.HideLinks();
         _activeAbsorber = null;
         _activeAbsorberScript = null;
     }
