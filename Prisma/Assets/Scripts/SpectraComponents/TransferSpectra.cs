@@ -23,8 +23,8 @@ public class TransferSpectra : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //if(_controller.CanControl)
-        //{
+        if(_controller.Active && _controller.CanControl)
+        {
             if (Input.GetMouseButtonDown(0))
             {
                 if (GetClickedObject())
@@ -41,7 +41,7 @@ public class TransferSpectra : MonoBehaviour {
                 _controller.EnablePhysics();
                 _controller.Activate();
             }
-        //}
+        }
     }
 
     private bool GetClickedObject()
@@ -79,11 +79,12 @@ public class TransferSpectra : MonoBehaviour {
             _activeAbsorberScript.HideLinks();
         _activeAbsorber = null;
         _activeAbsorberScript = null;
+        _controller.Unlock();
     }
 
     IEnumerator MoveToAbsorber()
     {
-        _controller.Deactivate();
+        _controller.Lock();
 
         Vector2 originalPosition = transform.position;
 

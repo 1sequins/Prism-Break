@@ -70,8 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Absorber.cs" />
-    <Compile Include="Assets\Scripts\Activatable Objects\AO_CompondSource.cs" />
-    <Compile Include="Assets\Scripts\Activatable Objects\AO_ToggleSource.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObject.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObjectSource.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObjectTarget.cs" />

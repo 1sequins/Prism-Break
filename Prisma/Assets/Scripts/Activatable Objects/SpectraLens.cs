@@ -31,7 +31,7 @@ public class SpectraLens : MonoBehaviour, IInteractable {
         if(obj.tag == "Player")
         {
             Debug.Log("Entering Lens");
-            GameObject.Find("PlayerController").GetComponent<LensController>().ActivateLens(gameObject);
+            GameObject.Find("Main_GO").GetComponentInChildren<LensController>().ActivateLens(gameObject);
             obj.GetComponent<PlayerController>().Deactivate();
         }
     }

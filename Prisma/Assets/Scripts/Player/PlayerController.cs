@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
     #region Properties
 
+    public bool Active { get; set; }
     public bool CanControl { get; set; }
 
     public bool FacingRight
@@ -215,17 +216,29 @@ public class PlayerController : MonoBehaviour
 
     public void Activate()
     {
+        Active = true;
         CanControl = true;
         if (m_PlayerHealth != null) m_PlayerHealth.stasis = false;
     }
 
     public void Deactivate()
     {
+        Active = false;
         CanControl = false;
         if(m_PlayerHealth != null) m_PlayerHealth.stasis = true;
         _currentSpeed = 0;
         m_rigidbody.velocity = new Vector2(0, 0);
         m_anim.SetFloat("Speed", 0);
+    }
+
+    public void Unlock()
+    {
+        CanControl = true;
+    }
+
+    public void Lock()
+    {
+        CanControl = true;
     }
 
     public void EnablePhysics()

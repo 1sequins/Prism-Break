@@ -6,6 +6,8 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
     public int AO_ID;
 
+    public bool inverse;
+
     public bool Active { get; set; }
 
     private bool _sourceAndTarget;
@@ -13,6 +15,10 @@ public class ActivatableObjectTarget : MonoBehaviour {
     private List<ActivatableObjectSource> _sources;
 
     private ActivatableObject _activatableObject;
+
+    public delegate void ActivateDel();
+    public ActivateDel Activate;
+    public ActivateDel Deactivate;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +42,13 @@ public class ActivatableObjectTarget : MonoBehaviour {
                 if (aosource.AO_ID == AO_ID) _sources.Add(aosource);
             }
         }
+
+        //Flip delegate calls if inverse 
+        if (inverse) Activate = DeactivateObject;
+        else Activate = ActivateObject;
+
+        if (inverse) Deactivate = ActivateObject;
+        else Deactivate = DeactivateObject;
     }
 	
 	// Update is called once per frame
@@ -46,13 +59,13 @@ public class ActivatableObjectTarget : MonoBehaviour {
     public void ActivateFromSource(ActivatableObjectSource source)
     {
         bool activate = (_sources.Count > 0);
-        if (source.GetType() == typeof(AO_CompondSource))
+        if (source.sourceType == SourceType.Compound)
         {
-            activate = ActivateFromCompoundSource((AO_CompondSource)source);
+            activate = ActivateFromCompoundSource();
         }
-        else if(source.GetType() == typeof(AO_ToggleSource))
+        else if(source.sourceType == SourceType.Toggle)
         {
-            activate = ToggleFromSource((AO_ToggleSource)source);
+            activate = ToggleFromSource();
             if (activate) Activate();
             else Deactivate();
             return;
@@ -70,7 +83,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
     /// </summary>
     /// <param name="source"></param>
     /// <returns></returns>
-    public bool ActivateFromCompoundSource(AO_CompondSource source)
+    public bool ActivateFromCompoundSource()
     {
         bool activate = (_sources.Count > 0);
         foreach (ActivatableObjectSource s in _sources)
@@ -90,7 +103,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
     /// </summary>
     /// <param name="source"></param>
     /// <returns></returns>
-    public bool ToggleFromSource(AO_ToggleSource source)
+    public bool ToggleFromSource()
     {
         Debug.Log("Toggling Activation");
         Debug.Log(!Active);
@@ -119,13 +132,13 @@ public class ActivatableObjectTarget : MonoBehaviour {
     public void DeactivateFromSource(ActivatableObjectSource source)
     {
         bool deactivate = (_sources.Count == 0);
-        if (source.GetType() == typeof(AO_CompondSource))
+        if (source.sourceType == SourceType.Compound)
         {
-            deactivate = DeactivateFromCompoundSource((AO_CompondSource)source);
+            deactivate = DeactivateFromCompoundSource();
         }
-        else if (source.GetType() == typeof(AO_ToggleSource))
+        else if (source.sourceType == SourceType.Toggle)
         {
-            deactivate = !ToggleFromSource((AO_ToggleSource)source);
+            deactivate = !ToggleFromSource();
             if (deactivate) Deactivate();
             else Activate();
             return;
@@ -138,7 +151,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
         if (deactivate) Deactivate();
     }
 
-    public bool DeactivateFromCompoundSource(AO_CompondSource source)
+    public bool DeactivateFromCompoundSource()
     {
         bool deactivate = false;
         foreach (ActivatableObjectSource s in _sources)
@@ -168,7 +181,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
         return deactivate;
     }
 
-    public void Activate()
+    public void ActivateObject()
     {
         Active = true;
         if (_sourceAndTarget)
@@ -181,7 +194,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
         }
     }
 
-    public void Deactivate()
+    public void DeactivateObject()
     {
         Active = false;
         if(_sourceAndTarget)

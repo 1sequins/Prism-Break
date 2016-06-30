@@ -2,9 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum SourceType
+{
+    Serial,
+    Compound,
+    Toggle
+}
+
 public class ActivatableObjectSource : MonoBehaviour {
 
     public int AO_ID;
+
+    public SourceType sourceType;
 
     public bool Active { get; set; }
 
