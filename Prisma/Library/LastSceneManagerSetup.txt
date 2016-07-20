@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Testing.unity
+- path: Assets/Scenes/Matt_Puzzle_1_v1.unity
   isLoaded: 1
   isActive: 1
