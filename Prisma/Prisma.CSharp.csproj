@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Activatable Objects\MovablePlatform.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\OpticCapture.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\Podium.cs" />
+    <Compile Include="Assets\Scripts\Activatable Objects\PoweredSwitch.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\RetractablePlatform.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\SpectraLens.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\Switch.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\PlayerInteract.cs" />
     <Compile Include="Assets\Scripts\PlayerMotor.cs" />
+    <Compile Include="Assets\Scripts\PlayerPoweredInteract.cs" />
     <Compile Include="Assets\Scripts\SpectraComponents\DashSpectra.cs" />
     <Compile Include="Assets\Scripts\SpectraComponents\EtherialSpectra.cs" />
     <Compile Include="Assets\Scripts\SpectraComponents\JumpSpectra.cs" />
