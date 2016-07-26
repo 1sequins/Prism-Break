@@ -31,7 +31,7 @@ public class PoweredSwitch : ActivatableObject
     public override void Deactivate()
     {
         base.Deactivate();
-        GetComponent<SpriteRenderer>().color = Color.white;
+        GetComponent<SpriteRenderer>().color = new Color(0.69f, 1.0f, 0.54f);
         _source.Deactivate();
     }
 

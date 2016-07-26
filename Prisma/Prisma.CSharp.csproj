@@ -73,8 +73,11 @@
     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObject.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObjectSource.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\ActivatableObjectTarget.cs" />
+    <Compile Include="Assets\Scripts\Activatable Objects\BouncingLaser.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\Door.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\EtherealPlatform.cs" />
+    <Compile Include="Assets\Scripts\Activatable Objects\LaserEmitter.cs" />
+    <Compile Include="Assets\Scripts\Activatable Objects\Mirror.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\MovablePlatform.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\OpticCapture.cs" />
     <Compile Include="Assets\Scripts\Activatable Objects\Podium.cs" />

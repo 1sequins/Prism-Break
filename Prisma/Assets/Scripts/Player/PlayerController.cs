@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
     private float _groundCheckOffset = 0.3f;
     private int _jumpTimer = 0;
     private int _jumpDelay = 1;
+    private int _maxJumpFallBuffer = 5;
+    private int _jumpFallBuffer = 0;
 
     private Vector3 _activeLocalPlatformPoint;
     private Vector3 _activeGlobalPlatformPoint;
@@ -170,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (_canJump && _grounded)
+        if (_canJump /*&& (_grounded || _jumpFallBuffer > 0)*/)
         {
             _canJump = false;
             m_anim.SetBool("Grounded", false);
@@ -187,6 +189,7 @@ public class PlayerController : MonoBehaviour
             if (_jumpTimer <= 0)
             {
                 _canJump = true;
+                _jumpFallBuffer = _maxJumpFallBuffer;
             }
         }
 
@@ -201,8 +204,14 @@ public class PlayerController : MonoBehaviour
 
         if (!_grounded)
         {
-            _canJump = false;
             _movingPlatform = null;
+
+            //Buffer so player can jump a short time after falling off a platform
+            if (_canJump)
+            {
+                _jumpFallBuffer--;
+                if (_jumpFallBuffer < 0) _canJump = false;
+            }
         }
     }
 
