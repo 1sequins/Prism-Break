@@ -20,9 +20,8 @@ public class ActivatableObjectTarget : MonoBehaviour {
     public ActivateDel Activate;
     public ActivateDel Deactivate;
 
-	// Use this for initialization
-	void Start () {
-
+    void Awake()
+    {
         _sourceAndTarget = GetComponent<ActivatableObjectSource>() != null;
 
         _sources = new List<ActivatableObjectSource>();
@@ -36,10 +35,14 @@ public class ActivatableObjectTarget : MonoBehaviour {
         //Get all the targets that have the same ID
         foreach (GameObject source in sourceArr)
         {
-            ActivatableObjectSource aosource = source.GetComponent<ActivatableObjectSource>();
-            if (aosource != null)
+            ActivatableObjectSource[] aosource = source.GetComponents<ActivatableObjectSource>();
+
+            foreach(ActivatableObjectSource aos in aosource)
             {
-                if (aosource.AO_ID == AO_ID) _sources.Add(aosource);
+                if (aos.AO_ID == AO_ID)
+                {
+                    _sources.Add(aos);
+                }
             }
         }
 
@@ -49,6 +52,11 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
         if (inverse) Deactivate = ActivateObject;
         else Deactivate = DeactivateObject;
+    }
+
+	// Use this for initialization
+	void Start () {
+
     }
 	
 	// Update is called once per frame

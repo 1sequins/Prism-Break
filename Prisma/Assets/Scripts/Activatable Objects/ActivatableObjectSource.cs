@@ -19,8 +19,8 @@ public class ActivatableObjectSource : MonoBehaviour {
 
     private List<ActivatableObjectTarget> _targets;
 
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
         _targets = new List<ActivatableObjectTarget>();
 
         GameObject[] targetArr = GameObject.FindGameObjectsWithTag("AO");
@@ -36,6 +36,11 @@ public class ActivatableObjectSource : MonoBehaviour {
                 if (aotarget.AO_ID == AO_ID) _targets.Add(aotarget);
             }
         }
+    }
+
+	// Use this for initialization
+	void Start () {
+
 	}
 	
 	// Update is called once per frame

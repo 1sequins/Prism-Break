@@ -6,12 +6,13 @@ using System;
 [RequireComponent(typeof(ActivatableObjectSource))]
 public class PoweredSwitch : ActivatableObject
 {
-    private ActivatableObjectSource _source;
+    private ActivatableObjectSource[] _sources;
 
     // Use this for initialization
     void Start()
     {
-        _source = GetComponent<ActivatableObjectSource>();
+        _sources = GetComponents<ActivatableObjectSource>();
+        //_sources.AddRange(sourceList);
         SetInitialState();
     }
 
@@ -25,14 +26,22 @@ public class PoweredSwitch : ActivatableObject
     {
         base.Activate();
         GetComponent<SpriteRenderer>().color = new Color(0.0f, 1.0f, 0.0f);
-        _source.Activate();
+        foreach(ActivatableObjectSource source in _sources)
+        {
+            Debug.Log("Source [" + source.AO_ID + "] Activated");
+            source.Activate();
+        }
     }
 
     public override void Deactivate()
     {
         base.Deactivate();
         GetComponent<SpriteRenderer>().color = new Color(0.69f, 1.0f, 0.54f);
-        _source.Deactivate();
+
+        foreach (ActivatableObjectSource source in _sources)
+        {
+            source.Deactivate();
+        }
     }
 
     public void Interact(GameObject obj)

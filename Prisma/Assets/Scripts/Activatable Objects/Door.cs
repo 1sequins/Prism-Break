@@ -6,10 +6,13 @@ public class Door : ActivatableObject {
 
     private BoxCollider2D _collider;
 
+    void Awake()
+    {
+        _collider = GetComponent<BoxCollider2D>();
+    }
+
 	// Use this for initialization
 	void Start () {
-        _collider = GetComponent<BoxCollider2D>();
-
         SetInitialState();
     }
 	
