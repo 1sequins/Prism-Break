@@ -15,11 +15,13 @@ namespace UnityStandardAssets._2D
 
         private Transform m_Player; // Reference to the player's transform.
 
+        private bool locked;
 
         private void Awake()
         {
             // Setting up the reference.
             m_Player = GameObject.FindGameObjectWithTag("Player").transform;
+            locked = false;
         }
 
 
@@ -69,6 +71,14 @@ namespace UnityStandardAssets._2D
 
             // Set the camera's position to the target position with the same z component.
             transform.position = new Vector3(targetX, targetY, transform.position.z);
+        }
+
+        public void ChangeTarget(Transform newTarget)
+        {
+            if(!locked)
+            {
+                m_Player = newTarget;
+            }
         }
     }
 }

@@ -164,7 +164,7 @@ public class LensController : MonoBehaviour
     private void CycleSpectra()
     {
         Debug.Log("Switching Spectra");
-        Camera.main.orthographicSize = 10;
+        Camera.main.GetComponent<Camera2DFollow>().ChangeSize(10);
         if (_currentSpectra != null)
         {
             _currentSpectra.GetComponent<PlayerController>().Deactivate();
@@ -180,7 +180,7 @@ public class LensController : MonoBehaviour
 
     private void SelectSpectra()
     {
-        Camera.main.orthographicSize = 7;
+        Camera.main.GetComponent<Camera2DFollow>().ChangeSize(8);
 
         _currentSpectra.GetComponent<PlayerController>().Deactivate();
 
@@ -207,7 +207,7 @@ public class LensController : MonoBehaviour
         }
 
         _currentSpectra.GetComponent<PlayerController>().Activate();
-        Camera.main.GetComponent<Camera2DFollow>().target = _currentSpectra.transform;
+        Camera.main.GetComponent<Camera2DFollow>().ChangeTarget(_currentSpectra.transform);
     }
 
     private void SwitchSpectra(ColorEnum color)
@@ -225,12 +225,12 @@ public class LensController : MonoBehaviour
             GameObject focusSpectra = m_SpectraDictionary.GetSpectra(color);
             string spectraName = string.Format(focusSpectra.name + "(Clone)");
             Debug.Log(string.Format("Looking for Spectra with name [{0}]", spectraName));
-            Camera.main.GetComponent<Camera2DFollow>().target = GameObject.Find(spectraName).transform;
+            Camera.main.GetComponent<Camera2DFollow>().ChangeTarget(GameObject.Find(spectraName).transform);
         }
         else
         {
             Debug.Log(string.Format("No active spectra for color [{0}] found", color));
-            Camera.main.GetComponent<Camera2DFollow>().target = _lens.transform;
+            Camera.main.GetComponent<Camera2DFollow>().ChangeTarget(_lens.transform);
         }
         _playerFocused = false;
         SelectSpectra();
@@ -252,7 +252,7 @@ public class LensController : MonoBehaviour
         _playerFocused = true;
 
         _currentSpectra = GameObject.FindGameObjectWithTag("Player");
-        Camera.main.GetComponent<Camera2DFollow>().target = _currentSpectra.transform;
+        Camera.main.GetComponent<Camera2DFollow>().ChangeTarget(_currentSpectra.transform);
 
         if(!inLens && _oldSpectra != null)
         {
@@ -301,7 +301,7 @@ public class LensController : MonoBehaviour
         ResetColorDictionary();
         DestroySpectra();
         _currentSpectra.GetComponent<PlayerController>().Activate();
-        Camera.main.GetComponent<Camera2DFollow>().target = _currentSpectra.transform;
+        Camera.main.GetComponent<Camera2DFollow>().ChangeTarget(_currentSpectra.transform);
         _active = false;
         _lens = null;
         _currentSpectra = null;

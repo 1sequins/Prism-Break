@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
     public bool Active { get; set; }
     public bool CanControl { get; set; }
+    public bool InCameraZone { get; set; }
+    public CameraZone CurrentCameraZone { get; set; }
 
     public bool FacingRight
     {
@@ -66,6 +68,7 @@ public class PlayerController : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
         CanControl = true;
+        Active = true;
 	}
 	
 	// Update is called once per frame
