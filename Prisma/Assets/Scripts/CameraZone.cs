@@ -35,7 +35,7 @@ public class CameraZone : MonoBehaviour {
             if (target != null && player.Active)
             {
                 _cameraFollow.SetCameraZone(this);
-                _cameraFollow.locked = true;
+                //_cameraFollow.locked = true;
             }
         }
     }

@@ -18,7 +18,7 @@ public class SpectraLens : MonoBehaviour, IInteractable {
     #endregion
     // Use this for initialization
     void Start () {
-	
+	    
 	}
 	
 	// Update is called once per frame
@@ -31,7 +31,7 @@ public class SpectraLens : MonoBehaviour, IInteractable {
         if(obj.tag == "Player")
         {
             Debug.Log("Entering Lens");
-            GameObject.Find("Main_GO").GetComponentInChildren<LensController>().ActivateLens(gameObject);
+            GameObject.Find("Main_GO").GetComponentInChildren<LensController>().ActivateLens(gameObject, obj);
             obj.GetComponent<PlayerController>().Deactivate();
         }
     }

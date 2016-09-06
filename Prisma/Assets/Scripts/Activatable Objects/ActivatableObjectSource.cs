@@ -24,11 +24,22 @@ public class ActivatableObjectSource : MonoBehaviour {
         _targets = new List<ActivatableObjectTarget>();
 
         GameObject[] targetArr = GameObject.FindGameObjectsWithTag("AO");
+        GameObject[] absorberArr = GameObject.FindGameObjectsWithTag("Absorber");
 
         if (AO_ID <= 0) return;
 
         //Get all the targets that have the same ID
         foreach (GameObject target in targetArr)
+        {
+            ActivatableObjectTarget aotarget = target.GetComponent<ActivatableObjectTarget>();
+            if (aotarget != null)
+            {
+                if (aotarget.AO_ID == AO_ID) _targets.Add(aotarget);
+            }
+        }
+
+        //Get all the targets that have the same ID
+        foreach (GameObject target in absorberArr)
         {
             ActivatableObjectTarget aotarget = target.GetComponent<ActivatableObjectTarget>();
             if (aotarget != null)

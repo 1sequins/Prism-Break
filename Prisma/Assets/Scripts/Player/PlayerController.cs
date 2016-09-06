@@ -60,13 +60,16 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-
-    // Use this for initialization
-	void Start () 
+    void Awake()
     {
         m_PlayerHealth = GetComponent<PlayerHealth>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
+    }
+
+    // Use this for initialization
+	void Start () 
+    {
         CanControl = true;
         Active = true;
 	}
@@ -198,6 +201,8 @@ public class PlayerController : MonoBehaviour
 
         bool lastGround = _grounded;
         _grounded = Physics2D.OverlapCircle(groundCheck.position, _groundCheckRadius, groundLayer);
+        //Can't land while going up
+        if (m_rigidbody.velocity.y > 0.1) _grounded = false;
         m_anim.SetBool("Grounded", _grounded);
         if (!lastGround && _grounded)
         {
@@ -229,6 +234,8 @@ public class PlayerController : MonoBehaviour
     public void Activate()
     {
         Active = true;
+        m_anim.SetBool("Active", Active);
+        
         CanControl = true;
         if (m_PlayerHealth != null) m_PlayerHealth.stasis = false;
     }
@@ -236,6 +243,9 @@ public class PlayerController : MonoBehaviour
     public void Deactivate()
     {
         Active = false;
+
+        m_anim.SetBool("Active", Active);
+
         CanControl = false;
         if(m_PlayerHealth != null) m_PlayerHealth.stasis = true;
         _currentSpeed = 0;

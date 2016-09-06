@@ -7,14 +7,14 @@ public class OpticCapture : ActivatableObject {
 
     public List<ColorEnum> opticColors = new List<ColorEnum>();
 
-    private ActivatableObjectSource _source;
+    private ActivatableObjectSource[] _sources;
     private Spectra _activeSpectra;
 
     private Color activeTint;
 
 	// Use this for initialization
 	void Start () {
-        _source = GetComponent<ActivatableObjectSource>();
+        _sources = GetComponents<ActivatableObjectSource>();
         _activeSpectra = null;
 	}
 	
@@ -40,7 +40,10 @@ public class OpticCapture : ActivatableObject {
             default: activeTint = new Color(1.0f, 1.0f, 1.0f, 0.5f); break;
         }
         GetComponent<SpriteRenderer>().color = activeTint;
-        _source.Activate();
+        foreach(ActivatableObjectSource source in _sources)
+        {
+            source.Activate();
+        }
     }
 
     public override void Deactivate()
@@ -48,7 +51,10 @@ public class OpticCapture : ActivatableObject {
         base.Deactivate();
         GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
         _activeSpectra = null;
-        _source.Deactivate();
+        foreach (ActivatableObjectSource source in _sources)
+        {
+            source.Deactivate();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collider)

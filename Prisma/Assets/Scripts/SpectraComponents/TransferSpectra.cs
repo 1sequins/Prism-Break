@@ -54,18 +54,20 @@ public class TransferSpectra : MonoBehaviour {
             {
                 if(_activeAbsorberScript.linkedAbsorbers.Contains(hit.gameObject))
                 {
+                    Absorber absorberScript = hit.transform.GetComponent<Absorber>();
+                    if (!absorberScript.Active) return false;
                     _activeAbsorberScript.HideLinks();
                     _activeAbsorber = hit.transform;
-                    _activeAbsorberScript = _activeAbsorber.GetComponent<Absorber>();
-                    Debug.Log("Can jump to absorber");
+                    _activeAbsorberScript = absorberScript;
                     return true;
                 }
             }
             if (_absorbers.Count > 0 && _absorbers.Contains(hit.transform))
             {
+                Absorber absorberScript = hit.transform.GetComponent<Absorber>();
+                if (!absorberScript.Active) return false;
                 _activeAbsorber = hit.transform;
-                _activeAbsorberScript = _activeAbsorber.GetComponent<Absorber>();
-                Debug.Log("Can jump to absorber");
+                _activeAbsorberScript = absorberScript;
                 return true;
             }
         }
@@ -107,7 +109,6 @@ public class TransferSpectra : MonoBehaviour {
             if(!_absorbers.Contains(collider.transform.parent))
             {
                 _absorbers.Add(collider.transform.parent);
-                Debug.Log("Absorber added");
             }
         }
     }
@@ -119,7 +120,6 @@ public class TransferSpectra : MonoBehaviour {
             if (_absorbers.Contains(collider.transform.parent))
             {
                 _absorbers.Remove(collider.transform.parent);
-                Debug.Log("Absorber removed");
             }
         }
     }

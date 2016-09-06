@@ -66,6 +66,7 @@ public class ActivatableObjectTarget : MonoBehaviour {
 
     public void ActivateFromSource(ActivatableObjectSource source)
     {
+        Debug.Log(source.AO_ID);
         bool activate = (_sources.Count > 0);
         if (source.sourceType == SourceType.Compound)
         {

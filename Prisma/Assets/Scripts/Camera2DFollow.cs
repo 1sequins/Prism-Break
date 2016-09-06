@@ -6,11 +6,13 @@ public class Camera2DFollow : MonoBehaviour
 {
     public Transform target;
     public float damping = 1;
+    public float lockedDamping = 0.1f;
     public float lookAheadFactor = 3;
     public float lookAheadReturnSpeed = 0.5f;
     public float lookAheadMoveThreshold = 0.1f;
     public float defaultCameraZoom = 8;
     public float zoomSpeed = 2.0f;
+    public float maxSpeed = 12.0f;
     public bool locked = false;
 
     private Camera _camera;
@@ -41,6 +43,8 @@ public class Camera2DFollow : MonoBehaviour
         // only update lookahead pos if accelerating or changed direction
         float xMoveDelta = (target.position - m_LastTargetPosition).x;
 
+        float actualDamp = m_CurrentVelocity.magnitude > maxSpeed ? lockedDamping : damping;
+
         bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
 
         if (updateLookAheadTarget)
@@ -53,7 +57,7 @@ public class Camera2DFollow : MonoBehaviour
         }
 
         Vector3 aheadTargetPos = target.position + m_LookAheadPos + Vector3.forward * m_OffsetZ;
-        Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref m_CurrentVelocity, damping);
+        Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref m_CurrentVelocity, actualDamp);
 
         transform.position = newPos;
 

@@ -25,11 +25,13 @@ public class Door : ActivatableObject {
     {
         base.Activate();
         _collider.enabled = false;
+        GetComponent<SpriteRenderer>().color = new Color(0.0f, 0.0f, 0.0f, 0.1f);
     }
 
     public override void Deactivate()
     {
         base.Deactivate();
         _collider.enabled = true;
+        GetComponent<SpriteRenderer>().color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
     }
 }

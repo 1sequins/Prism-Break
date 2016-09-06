@@ -282,7 +282,7 @@ public class LensController : MonoBehaviour
 
     #region Public Methods
 
-    public void ActivateLens(GameObject lens)
+    public void ActivateLens(GameObject lens, GameObject player)
     {
         Debug.Log("Activating Lens");
         _active = true;
@@ -290,7 +290,7 @@ public class LensController : MonoBehaviour
         _currentSpectra = null;
         MapSpectraColors();
         //_switchFocus = true;
-        _currentSpectra = GameObject.FindGameObjectWithTag("Player");
+        _currentSpectra = player;
         _currentSpectra.GetComponent<PlayerController>().Deactivate();
         //CycleSpectra();
     }
