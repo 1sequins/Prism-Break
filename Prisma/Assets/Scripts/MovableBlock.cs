@@ -1,20 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MovableBlock : MonoBehaviour {
 
-    public int movingMass = 5;
-    public int immobileMass = 100;
-
-    private bool _movable;
-
-    private Rigidbody2D _rigidbody;
+    private PhasingBlock _phasingScript;
 
 	// Use this for initialization
 	void Start () {
-        _rigidbody = GetComponent<Rigidbody2D>();
-
-        Release();
+        _phasingScript = transform.parent.GetComponent<PhasingBlock>();
 	}
 	
 	// Update is called once per frame
@@ -22,15 +16,13 @@ public class MovableBlock : MonoBehaviour {
 
 	}
 
-    public void Grab()
+    public void PhaseBlock()
     {
-        _movable = true;
-        _rigidbody.mass = movingMass;
+        _phasingScript.MoveToPosition();
     }
 
-    public void Release()
+    public void Interact(GameObject obj)
     {
-        _movable = false;
-        _rigidbody.mass = immobileMass;
+        PhaseBlock();
     }
 }

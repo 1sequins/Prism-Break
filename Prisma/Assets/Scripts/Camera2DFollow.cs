@@ -44,6 +44,7 @@ public class Camera2DFollow : MonoBehaviour
         float xMoveDelta = (target.position - m_LastTargetPosition).x;
 
         float actualDamp = m_CurrentVelocity.magnitude > maxSpeed ? lockedDamping : damping;
+        if (target.tag == "Camera Focus") actualDamp = damping;
 
         bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
 

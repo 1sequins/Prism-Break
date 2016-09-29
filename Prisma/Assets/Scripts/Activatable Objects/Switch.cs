@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 [RequireComponent(typeof (ActivatableObjectSource))]
-public class Switch : ActivatableObject, IInteractable {
+public class Switch : ActivatableObject {
 
     private ActivatableObjectSource[] _sources;
 
